@@ -1,15 +1,24 @@
 using Microsoft.AspNetCore.Diagnostics;
 using OneIncTestTask.Facade;
 using OneIncTestTask.Helpres;
+using OneIncTestTask.Models;
 using OneIncTestTask.Utils;
 using System.Net;
-using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddCors();
+var corsOptions = builder.Configuration.GetSection("Cors").Get<CorsSettings>()!;
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins(corsOptions.AllowedOrigins)
+                .WithMethods(corsOptions.AllowedMethods)
+                .WithHeaders(corsOptions.AllowedHeaders);
+    });
+});
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
