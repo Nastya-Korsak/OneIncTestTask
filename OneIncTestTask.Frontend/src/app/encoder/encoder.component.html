@@ -1,0 +1,18 @@
+<div class="encoding-component container mt-5 text-center">
+
+  <div class="input-group mb-0 mx-auto" style="width: 40%; min-width: 50px;">
+    <input #text type="text" class="form-control" placeholder="Text input" aria-label="Text input" aria-describedby="basic-addon2" (keyup.enter)="fetchData(text.value)" [readonly]="operationInProgress">
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary" type="button" (click)="fetchData(text.value)" [hidden]="operationInProgress">Convert</button>
+      <button class="btn btn-outline-secondary" type="button" (click)="cancelOperation()" [hidden]="!operationInProgress">Cancel</button>
+    </div>
+  </div>
+  <div class="progress mb-3 mx-auto" style="height: 5px; width: 40%;" [hidden]="!operationInProgress">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+  </div>
+
+  <div class="mt-5">
+    <p class="font-weight-light">{{encodingResult}}</p>
+  </div>
+
+</div>
