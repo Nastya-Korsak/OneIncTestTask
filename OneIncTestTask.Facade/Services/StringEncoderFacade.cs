@@ -1,4 +1,6 @@
-﻿using OneIncTestTask.Facade.Interfaces;
+﻿using Microsoft.Extensions.Options;
+using OneIncTestTask.Facade.Configurations;
+using OneIncTestTask.Facade.Interfaces;
 using OneIncTestTask.Utils.Interfaces;
 using System.Runtime.CompilerServices;
 
@@ -7,9 +9,13 @@ namespace OneIncTestTask.Facade.Services;
 internal class StringEncoderFacade : IStringEncoderFacade
 {
     private readonly IStringEncoder _stringEncoder;
-    public StringEncoderFacade(IStringEncoder stringEncoder)
+    private readonly RandomSettings _randomSettings;
+
+    public StringEncoderFacade(IStringEncoder stringEncoder,
+        IOptions<RandomSettings> randomSettings)
     {
         _stringEncoder = stringEncoder;
+        _randomSettings = randomSettings.Value;
     }
 
     public IAsyncEnumerable<char> EncodeAsync(string value, CancellationToken cancellationToken = default)
@@ -26,7 +32,7 @@ internal class StringEncoderFacade : IStringEncoderFacade
         foreach (char c in encodedString)
         {
 
-            var randomPause = new Random().Next(1000, 5000);
+            var randomPause = new Random().Next(_randomSettings.MinValue, _randomSettings.MaxValue);
             await Task.Delay(randomPause, cancellationToken);
 
             yield return c;

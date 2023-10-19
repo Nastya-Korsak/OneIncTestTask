@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Diagnostics;
 using OneIncTestTask.Facade;
+using OneIncTestTask.Facade.Configurations;
 using OneIncTestTask.Helpres;
 using OneIncTestTask.Models;
 using OneIncTestTask.Utils;
@@ -19,6 +20,9 @@ builder.Services.AddCors(options =>
                 .WithHeaders(corsOptions.AllowedHeaders);
     });
 });
+builder.Services.AddOptions<RandomSettings>().BindConfiguration("RandomSettings")
+    .Validate(s => s.MinValue < s.MaxValue, "RandomSettings validation error.")
+    .ValidateOnStart();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
