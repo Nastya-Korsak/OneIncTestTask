@@ -10,4 +10,10 @@
     <ProjectReference Include="..\OneIncTestTask.Utils\OneIncTestTask.Utils.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>OneIncTestTask.Facade.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
 </Project>
