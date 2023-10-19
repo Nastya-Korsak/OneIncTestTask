@@ -1,0 +1,31 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+version: '3.4'
+
+services:
+  backend:
+    image: oneinctesttask
+    build:
+      context: .
+      dockerfile: OneIncTestTask/Dockerfile
+    ports:
+      - 81:80
+
+  web:
+    build:
+      context: OneIncTestTask.Frontend
+      target: builder
+    volumes:
+      - ./OneIncTestTask.Frontend:/project
+      - /project/node_modules
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "82:80"
+    depends_on:
+      - web
+    links:
+      - web
